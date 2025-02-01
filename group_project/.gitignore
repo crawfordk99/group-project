@@ -43,3 +43,19 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firebase-specific files
+.firebase/
+firebase-debug.log
+
+# Firebase Emulator data
+storage_debug.log
+firestore-debug.log
+ui-debug.log
+auth-debug.log
+functions-debug.log
+
+# Firebase Functions (if using Cloud Functions)
+functions/node_modules/
+functions/lib/
+functions/.runtimeconfig.json
