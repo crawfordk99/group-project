@@ -32,8 +32,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   // Create a list of widgets for each page
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(), // HomePage from home.dart
-    SettingsPage(), // SettingsPage from settings.dart
     GalleryPage(), // MailPage from mail.dart
+    SettingsPage(), // SettingsPage from settings.dart
   ];
 
   void _onItemTapped(int index) {
@@ -59,13 +59,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.photo_library),
+            label: 'Gallery',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.contact_mail),
-            label: 'Gallery',
-          ),
+
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Color(0xFFB71C1C),
