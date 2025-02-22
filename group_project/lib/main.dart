@@ -29,6 +29,7 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
 
+
   // Create a list of widgets for each page
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(), // HomePage from home.dart
@@ -67,6 +68,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'Settings',
           ),
 
+
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.contact_mail),
+            label: 'Gallery',
+          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Color(0xFFB71C1C),
