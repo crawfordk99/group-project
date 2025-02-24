@@ -2,8 +2,31 @@ import 'package:flutter/material.dart';
 import 'home.dart'; // Import home.dart
 import 'settings.dart'; // Import settings.dart
 import 'gallery.dart'; // Import mail.dart
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await Firebase.initializeApp(options: FirebaseOptions(
+      apiKey: 'key',
+      appId: 'id',
+      messagingSenderId: 'sendid',
+      projectId: 'group_app',
+      storageBucket: 'myapp-b9yt18.appspot.com',
+    ));
+
+    FirebaseAuth.instance.useAuthEmulator('0.0.0.0', 9099);
+    FirebaseStorage.instance.useStorageEmulator('0.0.0.0', 9199);
+
+  }
+  catch (e) {
+
+  }
+
+}
 
 class MyApp extends StatelessWidget {
   static const String _title = 'Flutter Code Sample';
