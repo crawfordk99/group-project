@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MyApp());
-}
+import 'package:group_project/services/firebase_auth_service.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -34,8 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _password = '';
 
   void _handleSubmit() {
-    print('Username: $_username');
-    print('Password: $_password'); // ⚠️ Never log passwords in production!
+    FirebaseAuthService().logIn(_username, _password); // ⚠️ Never log passwords in production!
   }
 
   void _handleCreateAccount() {
@@ -96,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
               // Login Button
               ElevatedButton(
+
                 onPressed: _handleSubmit,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
