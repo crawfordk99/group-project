@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'colors.dart'; // Ensure this file contains your custom colors
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -7,27 +7,22 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  // Example user profile information (can be replaced with real data)
-  String profilePicUrl = 'https://example.com/profile-pic.jpg'; // Replace with your image URL
+  String profilePicUrl = 'https://example.com/profile-pic.jpg'; // Replace with actual image URL
   String userName = 'John Doe';
   String userEmail = 'john.doe@example.com';
   String userPassword = 'Passw0rd!';
-  bool enableNotifications = true;  // For notifications switch
-  bool isProfilePrivate = true;     // For profile privacy switch
+  bool enableNotifications = true;
+  bool isProfilePrivate = true;
 
-  // Declare the TextEditingController for each field
   late TextEditingController userNameController;
   late TextEditingController userEmailController;
   late TextEditingController userPasswordController;
 
-  // Function to handle profile picture change (add your logic here)
   void _changeProfilePic() {
-    // Example action: You can add logic to open image picker here
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Change profile picture')));
   }
 
   void _saveSettings() {
-    // Example: You can add logic to save the updated profile info
     setState(() {
       userName = userNameController.text;
       userEmail = userEmailController.text;
@@ -39,7 +34,6 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    // Initialize the controllers with current user data
     userNameController = TextEditingController(text: userName);
     userEmailController = TextEditingController(text: userEmail);
     userPasswordController = TextEditingController(text: userPassword);
@@ -47,7 +41,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void dispose() {
-    // Dispose of the controllers when the widget is disposed to prevent memory leaks
     userNameController.dispose();
     userEmailController.dispose();
     userPasswordController.dispose();
@@ -59,12 +52,13 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile Settings'),
+        backgroundColor: AppColors.primary, // 🔹 Custom Color from colors.dart
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            // Profile Picture Section
+            // 🔹 Profile Picture Section
             Center(
               child: GestureDetector(
                 onTap: _changeProfilePic,
@@ -76,88 +70,132 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             SizedBox(height: 16),
-            // Name Field
-            TextField(
-              controller: userNameController,
-              onChanged: (value) {
-                setState(() {
-                  userName = value; // Update userName when edited
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'Full Name',
-                border: OutlineInputBorder(),
+
+            // 🔹 Name Field with White Background
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white, // ⬜ White background
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: TextField(
+                controller: userNameController,
+                onChanged: (value) {
+                  setState(() {
+                    userName = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Full Name',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.all(12.0),
+                  filled: true,
+                  fillColor: Colors.white, // ⬜ Ensures white background
+                ),
               ),
             ),
             SizedBox(height: 16),
-            // Email Field
-            TextField(
-              controller: userEmailController,
-              onChanged: (value) {
-                setState(() {
-                  userEmail = value; // Update userEmail when edited
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'Email Address',
-                border: OutlineInputBorder(),
+
+            // 🔹 Email Field with White Background
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white, // ⬜ White background
+                borderRadius: BorderRadius.circular(8.0),
               ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            SizedBox(height: 16),
-            // Password Field
-            TextField(
-              controller: userPasswordController,
-              obscureText: true,
-              onChanged: (value) {
-                setState(() {
-                  userPassword = value; // Update userPassword when edited
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
+              child: TextField(
+                controller: userEmailController,
+                keyboardType: TextInputType.emailAddress,
+                onChanged: (value) {
+                  setState(() {
+                    userEmail = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Email Address',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.all(12.0),
+                  filled: true,
+                  fillColor: Colors.white, // ⬜ Ensures white background
+                ),
               ),
             ),
             SizedBox(height: 16),
-            // Save Changes Button
+
+            // 🔹 Password Field with White Background
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white, // ⬜ White background
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: TextField(
+                controller: userPasswordController,
+                obscureText: true,
+                onChanged: (value) {
+                  setState(() {
+                    userPassword = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.all(12.0),
+                  filled: true,
+                  fillColor: Colors.white, // ⬜ Ensures white background
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+
+            // 🔹 Save Changes Button
             ElevatedButton(
               onPressed: _saveSettings,
               child: Text('Save Changes'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.navigation,
+                foregroundColor: AppColors.text
+                // 🔹 Custom Color from colors.dart
+              ),
             ),
             SizedBox(height: 16),
-            // Additional Settings Section
+
+            // 🔹 Additional Settings
             Text(
               'Additional Settings',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.text),
             ),
             SwitchListTile(
-              title: Text('Enable Notifications'),
-              value: enableNotifications, // State for notifications
+              title: Text('Enable Notifications', style: TextStyle(color: AppColors.text)),
+              value: enableNotifications,
               onChanged: (bool value) {
                 setState(() {
                   enableNotifications = value;
                 });
               },
+              activeColor: AppColors.text,
             ),
             SwitchListTile(
-              title: Text('Make Profile Private'),
-              value: isProfilePrivate, // State for profile privacy
+              title: Text('Make Profile Private',
+                  style: TextStyle(color: AppColors.text)),
+
+              value: isProfilePrivate,
               onChanged: (bool value) {
                 setState(() {
                   isProfilePrivate = value;
                 });
               },
+              activeColor: AppColors.text,
             ),
             SizedBox(height: 16),
-            // Log Out Button
+
+            // 🔹 Log Out Button
             ElevatedButton(
               onPressed: () {
-                // Log out action
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Logged Out')));
               },
               child: Text('Log Out'),
-              style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFB71C1C)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.navigation,
+                foregroundColor: AppColors.text// 🔹 Custom Color from colors.dart
+              ),
             ),
           ],
         ),
