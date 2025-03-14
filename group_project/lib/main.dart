@@ -4,6 +4,7 @@ import 'settings.dart'; // Import settings.dart
 import 'gallery.dart'; // Import gallery.dart
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'main_screen.dart';
@@ -25,6 +26,7 @@ void main() async {
 
     FirebaseAuth.instance.useAuthEmulator('0.0.0.0', 9099);
     FirebaseStorage.instance.useStorageEmulator('0.0.0.0', 9199);
+    FirebaseFirestore.instance.useFirestoreEmulator('0.0.0.0', 8080);
   } catch (e) {
     print("Error initializing Firebase: $e");
   }

@@ -54,6 +54,7 @@ firestore-debug.log
 ui-debug.log
 auth-debug.log
 functions-debug.log
+/emulator-data/
 
 # Firebase Functions (if using Cloud Functions)
 functions/node_modules/
