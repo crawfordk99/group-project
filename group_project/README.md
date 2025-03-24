@@ -74,8 +74,10 @@ the firebase.json every emulator that has a host to "localhost" instead of "0.0.
 and change each firebase instance to local host as well. This is required because Firebase and the Flutter app have to pointing
 to the same host in order to work together.
 
+
 # Database logic
 
 Posts are saved to the userId. You pass in the imageFile to the savePosts function, and it uploads the imageFile to Firebase Storage.
 It then saves the post's to a collection (collections in Firebase sort of work like columns, but it's not a true SQL database) of "posts".
 Using getPosts will return a map/dictionary of those post details like title, content, imageUrl, and imageId (to help sort the posts).
+
