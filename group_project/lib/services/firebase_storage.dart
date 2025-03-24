@@ -28,17 +28,17 @@ class FirebaseStorageService {
   }
 
   // Upload an image file to Firebase Storage
-  Future<String> uploadFile(File imageFile) async {
+  Future<Map<String, dynamic>> uploadFile(File imageFile) async {
     try {
       if (userId == null) {
         print("Error: User is not logged in.");
-        return "";
+        return {};
       }
 
       // Unique id for the image
       String imageId = _uuid.v4();
 
-      // Create file path to store in
+      // Create file path to store image in
       final imageRef = _storage.ref().child('$userId/images/$imageId.jpg');
 
       // Put it to a file
@@ -50,17 +50,27 @@ class FirebaseStorageService {
       //
       String downloadURL = await snapshot.ref.getDownloadURL();
 
-      await _firestore.collection("images").doc(imageId).set({
+      // Store metadata in Firestore under the user's document
+      Map<String, dynamic> imageData = {
         "userID": userId,
         "imageID": imageId,
-        "url": downloadURL
-      });
+        "url": downloadURL,
+        "uploadedAt": FieldValue.serverTimestamp()
+      };
 
-      return imageId;
+      // Wait for it to create the entry
+      await _firestore
+          .collection("users")
+          .doc(userId)
+          .collection("images")
+          .doc(imageId)
+          .set(imageData);
+
+      return imageData;
 
     } catch (e) {
       print("Error uploading file: $e");
-      return "";
+      return {};
     }
 
   }

@@ -15,26 +15,23 @@ class FirebaseAuthService {
   }
 
   //
-  Future<User?> createUser(String email, String password, String userName) async {
+  Future<User?> createUser(String email, String password) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(
           email: email,
           password: password
       );
-      User? user = userCredential.user;
+      // User? user = userCredential.user;
+      return userCredential.user;
 
-      if (user != null) {
-        // Store additional user details in Firestore
-        await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
-          "userID": user.uid,
-          "email": email,
-          "username": userName
-        });
-
-        print("User created successfully!");
-        return user;
-      }
+      // if (user != null) {
+      //   // Store additional user details in Firestore
+      //   await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
+      //     "userID": user.uid,
+      //     "email": email,
+      //     "username": userName
+      //   });
       return null;
     }
     catch (e) {
