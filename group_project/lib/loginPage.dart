@@ -13,13 +13,24 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _email = '';
   String _password = '';
+  bool _login = true;
 
   void _handleSubmit() {
-    FirebaseAuthService().logIn(_email, _password); // ⚠️ Never log passwords in production!
+    if (_login == true) {
+      FirebaseAuthService().logIn(_username, _password);
+    }
+    else if(_login == false){
+      FirebaseAuthService().createUser(email, password)// ⚠️ Never log passwords in production!
+    }
   }
 
   void _handleCreateAccount() {
-    FirebaseAuthService().createUser(_email, _password); // Implement navigation here
+    if(_login == false)
+      {_login = true;}
+    else{
+      _login = false;// Implement navigation here
+    }
+
   }
 
   @override
@@ -94,7 +105,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   textStyle: const TextStyle(fontSize: 18),
                 ),
-                child: const Text('Create Account'),
+                child: _login
+                    ? const Text('Create Account')
+                    : const Text('LoginPage'),
               ),
             ],
           ),
