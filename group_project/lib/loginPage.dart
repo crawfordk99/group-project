@@ -1,41 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:group_project/services/firebase_auth_service.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login Page',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Login Page'),
-    );
-  }
-}
-
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _username = '';
+  String _email = '';
   String _password = '';
 
   void _handleSubmit() {
-    FirebaseAuthService().logIn(_username, _password); // ⚠️ Never log passwords in production!
+    FirebaseAuthService().logIn(_email, _password); // ⚠️ Never log passwords in production!
   }
 
   void _handleCreateAccount() {
-    print('Navigate to Create Account Page'); // Implement navigation here
+    FirebaseAuthService().createUser(_email, _password); // Implement navigation here
   }
 
   @override
@@ -43,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text("Verification Page"),
       ),
       body: Center(
         child: Padding(
@@ -64,12 +46,12 @@ class _MyHomePageState extends State<MyHomePage> {
               // Username Input
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: 'Username',
+                  labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _username = value;
+                    _email = value;
                   });
                 },
               ),
