@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:group_project/services/firebase_auth_service.dart';
 
-
 class MyHomePage extends StatefulWidget {
   // const MyHomePage({super.key, required this.title});
   //
@@ -12,7 +11,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _username = '';
+  String _email = '';
   String _password = '';
   bool _login = true;
 
@@ -31,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
     else{
       _login = false;// Implement navigation here
     }
+
   }
 
   @override
@@ -59,12 +59,12 @@ class _MyHomePageState extends State<MyHomePage> {
               // Username Input
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: 'Username',
+                  labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _username = value;
+                    _email = value;
                   });
                 },
               ),
