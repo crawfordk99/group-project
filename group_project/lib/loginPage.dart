@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:group_project/home_screen.dart';
 import 'package:group_project/services/firebase_auth_service.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -11,26 +12,33 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _email = '';
-  String _password = '';
+  final _email = TextEditingController();
+  final _password = TextEditingController();
   bool _login = true;
 
-  void _handleSubmit() {
+  Future<void> _handleSubmit() async {
     if (_login == true) {
-      FirebaseAuthService().logIn(_username, _password);
+      final user = await FirebaseAuthService().logIn(_email.text, _password.text);
+      if(user != null){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+      }
+
     }
-    else if(_login == false){
-      FirebaseAuthService().createUser(email, password)// ⚠️ Never log passwords in production!
+    else if(_login == false) {
+      final user = await FirebaseAuthService().createUser(_email.text, _password.text);
+      if (user != null) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      }
+    }
+    else {
+      print("hello");
     }
   }
 
   void _handleCreateAccount() {
-    if(_login == false)
-      {_login = true;}
-    else{
-      _login = false;// Implement navigation here
-    }
-
+    setState((){
+      _login = !_login;
+    });
   }
 
   @override
@@ -58,30 +66,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
               // Username Input
               TextFormField(
+                controller: _email,
                 decoration: const InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    _email = value;
-                  });
-                },
+
               ),
               const SizedBox(height: 16),
 
               // Password Input
               TextFormField(
+                controller: _password,
                 decoration: const InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
                 obscureText: true,
-                onChanged: (value) {
-                  setState(() {
-                    _password = value;
-                  });
-                },
               ),
               const SizedBox(height: 20),
 
