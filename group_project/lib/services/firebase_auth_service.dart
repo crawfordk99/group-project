@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+
   // Connect to the firebase emulator only in debug mode
   void connectAuthEmulator() {
     _auth.useAuthEmulator('localhost', 9099);
@@ -63,31 +64,36 @@ class FirebaseAuthService {
     return _auth.currentUser;
   }
 
-  // Stores the user's email, password, and userName in a dictionary/map
-  Future<Map<String, dynamic>?> getUserDetails() async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser; // Get the logged-in user
-
-      if (user == null) {
-        print("Error: No user is logged in.");
-        return null;
-      }
-
-      // Fetch user document from Firestore
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(user.uid)
-          .get();
-
-      if (userDoc.exists) {
-        return userDoc.data() as Map<String, dynamic>; // Return user details as a map
-      } else {
-        print("Error: User document not found.");
-        return null;
-      }
-    } catch (e) {
-      print("Error fetching user details: $e");
-      return null;
-    }
+  String? getEmail() {
+    final User? user = getCurrentUser();
+    return user?.email;
   }
+
+  // Stores the user's email, password, and userName in a dictionary/map
+  // Future<Map<String, dynamic>?> getUserDetails() async {
+  //   try {
+  //     User? user = FirebaseAuth.instance.currentUser; // Get the logged-in user
+  //
+  //     if (user == null) {
+  //       print("Error: No user is logged in.");
+  //       return null;
+  //     }
+  //
+  //     // Fetch user document from Firestore
+  //     DocumentSnapshot userDoc = await FirebaseFirestore.instance
+  //         .collection("users")
+  //         .doc(user.uid)
+  //         .get();
+  //
+  //     if (userDoc.exists) {
+  //       return userDoc.data() as Map<String, dynamic>; // Return user details as a map
+  //     } else {
+  //       print("Error: User document not found.");
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     print("Error fetching user details: $e");
+  //     return null;
+  //   }
+  // }
 }

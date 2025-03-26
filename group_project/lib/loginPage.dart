@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:group_project/services/firebase_auth_service.dart';
+import 'package:group_project/main_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   // const MyHomePage({super.key, required this.title});
@@ -11,15 +12,36 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _email = '';
-  String _password = '';
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  final FirebaseAuthService _authService = FirebaseAuthService();
+  bool _login = true;
 
-  void _handleSubmit() {
-    FirebaseAuthService().logIn(_email, _password); // ⚠️ Never log passwords in production!
+  @override
+  void initState() {
+    super.initState();
+    _authService.connectAuthEmulator();
+  }
+    _handleSubmit() async {
+    if (_login == true) {
+      final user = await _authService.logIn(_email.text, _password.text);
+      if(user != null){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+      }
+
+    }
+    else if(_login == false) {
+      final user = await _authService.createUser(_email.text, _password.text);
+      if (user != null) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
+      }
+    }
   }
 
   void _handleCreateAccount() {
-    FirebaseAuthService().createUser(_email, _password); // Implement navigation here
+    setState((){
+      _login = !_login;
+    });
   }
 
   @override
@@ -47,30 +69,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
               // Username Input
               TextFormField(
-                decoration: const InputDecoration(
+                controller: _email,
+                decoration: InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    _email = value;
-                  });
-                },
+                keyboardType: TextInputType.emailAddress,
+
               ),
               const SizedBox(height: 16),
 
               // Password Input
               TextFormField(
-                decoration: const InputDecoration(
+                controller: _password,
+                decoration: InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
                 obscureText: true,
-                onChanged: (value) {
-                  setState(() {
-                    _password = value;
-                  });
-                },
               ),
               const SizedBox(height: 20),
 
@@ -94,7 +110,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   textStyle: const TextStyle(fontSize: 18),
                 ),
-                child: const Text('Create Account'),
+                child: _login
+                    ? const Text('Create Account')
+                    : const Text('LoginPage'),
               ),
             ],
           ),

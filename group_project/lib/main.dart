@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:group_project/loginPage.dart';
-import 'package:group_project/home_screen.dart';
+import 'package:group_project/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,17 +21,19 @@ void main() async {
       ),
     );
 
-    FirebaseAuth.instance.useAuthEmulator('0.0.0.0', 9099);
-    FirebaseStorage.instance.useStorageEmulator('0.0.0.0', 9199);
-    FirebaseFirestore.instance.useFirestoreEmulator('0.0.0.0', 8080);
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+
+    runApp(const MyApp());
   } catch (e) {
     print("Error initializing Firebase: $e");
   }
 
-  runApp(const MyApp());
+
 }
 
-FirebaseAuthService _authService = FirebaseAuthService();
+final FirebaseAuthService _authService = FirebaseAuthService();
 class MyApp extends StatelessWidget {
 
   const MyApp({super.key});
@@ -51,7 +53,7 @@ class MyApp extends StatelessWidget {
 
           // If the user is logged in, show the HomeScreen
           if (snapshot.hasData) {
-            return const HomeScreen();
+            return const MainScreen();
           } else {
           // If the user is not logged in, show the LoginPage
             return MyHomePage();
