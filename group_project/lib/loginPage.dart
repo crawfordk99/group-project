@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:group_project/home_screen.dart';
 import 'package:group_project/services/firebase_auth_service.dart';
+import 'package:group_project/main_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   // const MyHomePage({super.key, required this.title});
@@ -14,24 +15,27 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final FirebaseAuthService _authService = FirebaseAuthService();
   bool _login = true;
 
-  Future<void> _handleSubmit() async {
+  @override
+  void initState() {
+    super.initState();
+    _authService.connectAuthEmulator();
+  }
+    _handleSubmit() async {
     if (_login == true) {
-      final user = await FirebaseAuthService().logIn(_email.text, _password.text);
+      final user = await _authService.logIn(_email.text, _password.text);
       if(user != null){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
       }
 
     }
     else if(_login == false) {
-      final user = await FirebaseAuthService().createUser(_email.text, _password.text);
+      final user = await _authService.createUser(_email.text, _password.text);
       if (user != null) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
       }
-    }
-    else {
-      print("hello");
     }
   }
 
@@ -67,10 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
               // Username Input
               TextFormField(
                 controller: _email,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
+                keyboardType: TextInputType.emailAddress,
 
               ),
               const SizedBox(height: 16),
@@ -78,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // Password Input
               TextFormField(
                 controller: _password,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
