@@ -54,8 +54,11 @@ firestore-debug.log
 ui-debug.log
 auth-debug.log
 functions-debug.log
+/emulator-data/
 
 # Firebase Functions (if using Cloud Functions)
 functions/node_modules/
 functions/lib/
 functions/.runtimeconfig.json
+.idea/caches/deviceStreaming.xml
+.idea/libraries/Dart_Packages.xml

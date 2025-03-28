@@ -1,14 +1,11 @@
 {
   "emulators": {
     "auth": {
-      "host": "0.0.0.0",
+      "host": "localhost",
       "port": 9099
     },
-    "functions": {
-      "port": 5001
-    },
     "firestore": {
-      "host": "0.0.0.0",
+      "host": "localhost",
       "port": 8080
     },
     "storage": {
