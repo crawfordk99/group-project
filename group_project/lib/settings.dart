@@ -52,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile Settings'),
-        backgroundColor: AppColors.primary, // 🔹 Custom Color from colors.dart
+        backgroundColor: AppColors.secondary, // 🔹 Custom Color from colors.dart
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
