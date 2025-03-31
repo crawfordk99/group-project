@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:group_project/loginPage.dart';
 import 'package:group_project/main_screen.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: AppTheme.lightTheme,
         debugShowCheckedModeBanner: false,
         title: 'Social Media App',
         home: StreamBuilder<User?>(

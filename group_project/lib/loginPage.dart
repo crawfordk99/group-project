@@ -32,6 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     }
     else if(_login == false) {
+
       if (_password.text.length > 6){
         final user = await _authService.createUser(_email.text, _password.text);
         if (user != null) {
