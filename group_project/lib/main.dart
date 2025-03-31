@@ -27,6 +27,13 @@ void main() async {
     FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
     FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
 
+    // final originalDebugPrint = debugPrint;
+    // debugPrint = (String? message, {int? wrapWidth}){
+    //   if(message != null && message.contains('you are using the aith emulator'))
+    //     {return;}
+    //   originalDebugPrint{message, wrapWidth: wrapWidth);
+    // };
+
     runApp(const MyApp());
   } catch (e) {
     print("Error initializing Firebase: $e");
