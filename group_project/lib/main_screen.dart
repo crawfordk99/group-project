@@ -3,6 +3,7 @@ import 'home_screen.dart';  // Import the HomeScreen
 import 'post_screen.dart';  // Import the CreatePostScreen
 import 'settings.dart';  // Import the SettingsScreen
 import 'theme.dart'; // Import the custom theme if needed
+import 'colors.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   // List of actual screens to navigate to
   final List<Widget> _screens = [
     const HomeScreen(),  // Home screen
-    const PostScreen(),  // Screen for creating a post
+    CreatePostScreen(),  // Screen for creating a post
     SettingsPage(),  // Settings screen
   ];
 
