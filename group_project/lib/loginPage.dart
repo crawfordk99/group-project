@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:group_project/home_screen.dart';
 import 'package:group_project/services/firebase_auth_service.dart';
 import 'package:group_project/main_screen.dart';
 
@@ -31,9 +32,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
     }
     else if(_login == false) {
-      final user = await _authService.createUser(_email.text, _password.text);
-      if (user != null) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
+
+      if (_password.text.length > 6){
+        final user = await _authService.createUser(_email.text, _password.text);
+        if (user != null) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+        }
+      }
+      else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Password must be at least 6 characters long."),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     }
   }
