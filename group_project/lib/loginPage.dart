@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                   width: 100,
                   height: 100,
-                  color: Colors.blue, // Background color
+                  color: Colors.purple, // Background color
                 ),
               ),
               const SizedBox(height: 16),
