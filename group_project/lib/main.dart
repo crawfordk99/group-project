@@ -17,7 +17,7 @@ void main() async {
         apiKey: 'key',
         appId: 'id',
         messagingSenderId: 'sendid',
-        projectId: 'group_app',
+        projectId: 'myapp',
         storageBucket: 'myapp-b9yt18.appspot.com',
       ),
     );
