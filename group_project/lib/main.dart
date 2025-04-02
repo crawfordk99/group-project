@@ -6,7 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:group_project/loginPage.dart';
 import 'package:group_project/main_screen.dart';
-import 'package:group_project/theme.dart';
+
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +27,13 @@ void main() async {
     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
     FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
     FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+
+    // final originalDebugPrint = debugPrint;
+    // debugPrint = (String? message, {int? wrapWidth}){
+    //   if(message != null && message.contains('you are using the aith emulator'))
+    //     {return;}
+    //   originalDebugPrint{message, wrapWidth: wrapWidth);
+    // };
 
     runApp(const MyApp());
   } catch (e) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:group_project/home_screen.dart';
 import 'package:group_project/services/firebase_auth_service.dart';
 import 'package:group_project/main_screen.dart';
 
@@ -22,21 +23,32 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _authService.connectAuthEmulator();
   }
-    _handleSubmit() async {
-    if (_login == true) {
+  _handleSubmit() async {
+    if (_login) {
       final user = await _authService.logIn(_email.text, _password.text);
-      if(user != null){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainScreen()));
-      }
-
-    }
-    else if(_login == false) {
-      final user = await _authService.createUser(_email.text, _password.text);
       if (user != null) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
       }
+    } else {
+      if (_password.text.length >= 6) { // Fixed: Use `>=` instead of `>`
+        final user = await _authService.createUser(_email.text, _password.text);
+        if (user != null) {
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
+        }
+      } else {
+        // Ensure UI is built before showing SnackBar
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Password must be at least 6 characters long."),
+              backgroundColor: Colors.red,
+            ),
+          );
+        });
+      }
     }
   }
+
 
   void _handleCreateAccount() {
     setState((){
@@ -62,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                   width: 100,
                   height: 100,
-                  color: Colors.blue, // Background color
+                  color: Color(0xFF9C27B0), // Background color
                 ),
               ),
               const SizedBox(height: 16),
@@ -73,6 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.white,
+
                 ),
                 keyboardType: TextInputType.emailAddress,
 
@@ -85,6 +100,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.white,
                 ),
                 obscureText: true,
               ),
