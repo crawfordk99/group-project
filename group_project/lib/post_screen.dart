@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 import 'package:group_project/services/posts_storage.dart';
 class CreatePostScreen extends StatefulWidget {
+  const CreatePostScreen({super.key});
+
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
 }
@@ -20,7 +22,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   // Function to pick image from file system
   Future<void> _pickImage() async {
     final html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-    uploadInput.accept = 'image/*';
+    uploadInput.accept = 'image/*'; //Ensures only images are selected
     uploadInput.click();
 
     uploadInput.onChange.listen((e) async {

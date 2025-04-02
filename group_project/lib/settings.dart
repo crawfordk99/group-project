@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'colors.dart'; // Ensure this file contains your custom colors
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -148,12 +150,12 @@ class _SettingsPageState extends State<SettingsPage> {
             // 🔹 Save Changes Button
             ElevatedButton(
               onPressed: _saveSettings,
-              child: Text('Save Changes'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.navigation,
                 foregroundColor: AppColors.text
                 // 🔹 Custom Color from colors.dart
               ),
+              child: Text('Save Changes'),
             ),
             SizedBox(height: 16),
 
@@ -191,11 +193,11 @@ class _SettingsPageState extends State<SettingsPage> {
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Logged Out')));
               },
-              child: Text('Log Out'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.navigation,
                 foregroundColor: AppColors.text// 🔹 Custom Color from colors.dart
               ),
+              child: Text('Log Out'),
             ),
           ],
         ),
