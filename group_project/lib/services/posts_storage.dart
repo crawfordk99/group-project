@@ -66,4 +66,29 @@ class PostsStorage {
       return [];
     }
   }
+
+  Future<List<Map<String, dynamic>>> getUserPostImages() async {
+    try {
+      if (userId == null) {
+        print("Error: User is not logged in.");
+        return [];
+      }
+      QuerySnapshot querySnapshot = await _firestore
+          .collection("users")
+          .doc(userId)
+          .collection("posts")
+          .get();
+
+      List<Map<String, dynamic>> posts = querySnapshot.docs.map((doc) {
+        return doc.data() as Map<String, dynamic>;
+      }).toList();
+
+      return posts;
+    } catch (e) {
+      print("Error retrieving post images: $e");
+      return [];
+    }
+  }
+
 }
+
