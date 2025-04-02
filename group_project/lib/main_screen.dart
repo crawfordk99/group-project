@@ -6,6 +6,7 @@ import 'theme.dart'; // Import the custom theme if needed
 import 'colors.dart';
 import 'gallery.dart';
 
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 

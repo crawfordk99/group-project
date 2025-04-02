@@ -13,7 +13,7 @@ class FirebaseStorageService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Used to create unique timestamp id for the image
-  Uuid _uuid = Uuid();
+  final Uuid _uuid = Uuid();
 
   // Get the current user
   User? get user => _auth.getCurrentUser();

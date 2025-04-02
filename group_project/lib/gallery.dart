@@ -34,6 +34,10 @@ class _GalleryPageState extends State<GalleryPage> {
     });
   }
 
+
+class GalleryPage extends StatelessWidget {
+  const GalleryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     // If no images, show 4 placeholders.

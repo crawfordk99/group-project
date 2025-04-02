@@ -9,7 +9,6 @@ import 'package:group_project/main_screen.dart';
 import 'package:group_project/theme.dart';
 
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
