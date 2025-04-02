@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';  // Import the HomeScreen
 import 'post_screen.dart';  // Import the CreatePostScreen
 import 'settings.dart';  // Import the SettingsScreen
-// Import the custom theme if needed
+import 'theme.dart'; // Import the custom theme if needed
+import 'colors.dart';
+import 'gallery.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -18,6 +21,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),  // Home screen
     CreatePostScreen(),  // Screen for creating a post
+    GalleryPage(), // Gallery Screen
     SettingsPage(),  // Settings screen
   ];
 
@@ -38,6 +42,7 @@ class _MainScreenState extends State<MainScreen> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.camera_alt, size: 32), label: 'Create'),
+          BottomNavigationBarItem(icon: Icon(Icons.image), label: 'Gallery'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ],
       ),
