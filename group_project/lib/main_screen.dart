@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';  // Import the HomeScreen
 import 'post_screen.dart';  // Import the CreatePostScreen
 import 'settings.dart';  // Import the SettingsScreen
-import 'theme.dart'; // Import the custom theme if needed
-import 'colors.dart';
+// Import the custom theme if needed
 import 'gallery.dart';
 
 
