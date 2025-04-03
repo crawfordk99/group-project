@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:group_project/services/firebase_auth_service.dart';
 import 'package:group_project/services/firebase_storage.dart';
-import 'dart:io';
 import 'dart:typed_data';
 
 class PostsStorage {
