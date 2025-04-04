@@ -8,9 +8,6 @@ import 'package:group_project/loginPage.dart';
 import 'package:group_project/main_screen.dart';
 import 'package:group_project/theme.dart';
 
-
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -20,7 +17,7 @@ void main() async {
         apiKey: 'key',
         appId: 'id',
         messagingSenderId: 'sendid',
-        projectId: 'group_app',
+        projectId: 'myapp',
         storageBucket: 'myapp-b9yt18.appspot.com',
       ),
     );

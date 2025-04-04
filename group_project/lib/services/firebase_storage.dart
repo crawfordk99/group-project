@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:group_project/services/firebase_auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +12,7 @@ class FirebaseStorageService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Used to create unique timestamp id for the image
-  Uuid _uuid = Uuid();
+  final Uuid _uuid = Uuid();
 
   // Get the current user
   User? get user => _auth.getCurrentUser();
@@ -28,7 +28,8 @@ class FirebaseStorageService {
   }
 
   // Upload an image file to Firebase Storage
-  Future<Map<String, dynamic>> uploadFile(File imageFile) async {
+  Future<Map<String, dynamic>> uploadFile(Uint8List imageBytes) async {
+
     try {
       if (userId == null) {
         print("Error: User is not logged in.");
@@ -42,7 +43,7 @@ class FirebaseStorageService {
       final imageRef = _storage.ref().child('$userId/images/$imageId.jpg');
 
       // Put it to a file
-      UploadTask uploadTask = imageRef.putFile(imageFile);
+      UploadTask uploadTask = imageRef.putData(imageBytes);
 
       // Create a snapshot of the data
       TaskSnapshot snapshot = await uploadTask;
@@ -58,13 +59,13 @@ class FirebaseStorageService {
         "uploadedAt": FieldValue.serverTimestamp()
       };
 
-      // Wait for it to create the entry
-      await _firestore
-          .collection("users")
-          .doc(userId)
-          .collection("images")
-          .doc(imageId)
-          .set(imageData);
+      // // Wait for it to create the entry
+      // await _firestore
+      //     .collection("users")
+      //     .doc(userId)
+      //     .collection("images")
+      //     .doc(imageId)
+      //     .set(imageData);
 
       return imageData;
 
@@ -74,35 +75,37 @@ class FirebaseStorageService {
     }
 
   }
-  Future<List<Map<String, dynamic>>> getUserImages() async {
-    try {
-      if (userId == null) {
-        print("Error: User is not logged in.");
-        return [];
-      }
 
-      // Query Firestore for images uploaded by the user
-      QuerySnapshot querySnapshot = await _firestore
-          .collection("images")
-          .where("userID", isEqualTo: userId)
-          .get();
+  // Future<List<Map<String, dynamic>>> getUserImages() async {
+  //   try {
+  //     if (userId == null) {
+  //       print("Error: User is not logged in.");
+  //       return [];
+  //     }
+  //
+  //     // Query Firestore for images uploaded by the user
+  //     QuerySnapshot querySnapshot = await _firestore
+  //         .collection("images")
+  //         .where("userID", isEqualTo: userId)
+  //         .get();
+  //
+  //     // Convert documents into a list of maps
+  //     List<Map<String, dynamic>> images = querySnapshot.docs.map((doc) {
+  //       return doc.data() as Map<String, dynamic>;
+  //     }).toList();
+  //
+  //     return images;
+  //   } catch (e) {
+  //     print("Error retrieving images: $e");
+  //     return [];
+  //   }
+  // }
 
-      // Convert documents into a list of maps
-      List<Map<String, dynamic>> images = querySnapshot.docs.map((doc) {
-        return doc.data() as Map<String, dynamic>;
-      }).toList();
-
-      return images;
-    } catch (e) {
-      print("Error retrieving images: $e");
-      return [];
-    }
-  }
-
-  Future<bool> deleteImage(String imageId) async {
+  // Pass in the postId inorder to delete the image and post
+  Future<bool> deleteImage(String postId) async {
     try {
       // Get image document from Firestore
-      DocumentSnapshot imageDoc = await _firestore.collection("images").doc(imageId).get();
+      DocumentSnapshot imageDoc = await _firestore.collection("posts").doc(postId).get();
 
       if (!imageDoc.exists) {
         print("Error: Image not found.");
@@ -110,12 +113,12 @@ class FirebaseStorageService {
       }
 
       // Get image URL and delete from Storage
-      String imageUrl = imageDoc['url'];
+      String imageUrl = imageDoc['imageUrl'];
       final storageRef = _storage.refFromURL(imageUrl);
       await storageRef.delete();
 
       // Delete Firestore document
-      await _firestore.collection("images").doc(imageId).delete();
+      await _firestore.collection("posts").doc(postId).delete();
 
       print("Image deleted successfully.");
       return true;
@@ -125,7 +128,7 @@ class FirebaseStorageService {
     }
   }
 
-  Future<Map<String, dynamic>> uploadProfilePic(File imageFile) async {
+  Future<Map<String, dynamic>> uploadProfilePic(Uint8List profileBytes) async {
     try {
       if (userId == null) {
         print("Error: User is not logged in.");
@@ -139,7 +142,7 @@ class FirebaseStorageService {
       final imageRef = _storage.ref().child('$userId/profilePic/$imageId.jpg');
 
       // Put it to a file
-      UploadTask uploadTask = imageRef.putFile(imageFile);
+      UploadTask uploadTask = imageRef.putData(profileBytes);
 
       // Create a snapshot of the data
       TaskSnapshot snapshot = await uploadTask;
@@ -148,7 +151,7 @@ class FirebaseStorageService {
       String downloadURL = await snapshot.ref.getDownloadURL();
 
       // Store metadata in Firestore under the user's document
-      Map<String, dynamic> imageData = {
+      Map<String, dynamic> profileData = {
         "userID": userId,
         "imageID": imageId,
         "url": downloadURL,
@@ -161,9 +164,9 @@ class FirebaseStorageService {
           .doc(userId)
           .collection("profilePic")
           .doc(imageId)
-          .set(imageData);
+          .set(profileData);
 
-      return imageData;
+      return profileData;
 
     } catch (e) {
       print("Error uploading file: $e");

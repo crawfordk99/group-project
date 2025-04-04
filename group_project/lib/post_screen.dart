@@ -1,11 +1,10 @@
 import 'dart:typed_data';
 import 'dart:html' as html;
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:uuid/uuid.dart';
-
+import 'package:group_project/services/posts_storage.dart';
 class CreatePostScreen extends StatefulWidget {
+  const CreatePostScreen({super.key});
+
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
 }
@@ -14,11 +13,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Uint8List? _imageBytes; // Image in byte format
   String? _imageUrl; // Displayed image URL
   final TextEditingController _captionController = TextEditingController();
+  final PostsStorage _storage = PostsStorage();
+
 
   // Function to pick image from file system
   Future<void> _pickImage() async {
     final html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-    uploadInput.accept = 'image/*';
+    uploadInput.accept = 'image/*'; //Ensures only images are selected
     uploadInput.click();
 
     uploadInput.onChange.listen((e) async {
@@ -43,25 +44,11 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     if (_imageBytes == null || _captionController.text.isEmpty) return;
 
     try {
-      String fileName = "post_${const Uuid().v4()}.jpg";
-      Reference ref = FirebaseStorage.instance.ref().child('posts/$fileName');
-
-      // Upload image bytes to Firebase Storage
-      UploadTask uploadTask = ref.putData(_imageBytes!);
-      TaskSnapshot snapshot = await uploadTask;
-
-      // Get download URL for the uploaded image
-      String downloadUrl = await snapshot.ref.getDownloadURL();
-
-      // Save the post data (image URL, caption, timestamp) in Firestore
-      await FirebaseFirestore.instance.collection('posts').add({
-        'imageUrl': downloadUrl,
-        'caption': _captionController.text.trim(),
-        'timestamp': FieldValue.serverTimestamp(),
-      });
+      // Our services class will handle the actual saving of the posts.
+      Map <String, dynamic> postData = await _storage.savePosts(_imageBytes, _captionController.text);
 
       setState(() {
-        _imageUrl = downloadUrl;
+        _imageUrl = postData["imageUrl"];
         _imageBytes = null; // Clear uploaded bytes
       });
 
