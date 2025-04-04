@@ -75,35 +75,37 @@ class FirebaseStorageService {
     }
 
   }
-  Future<List<Map<String, dynamic>>> getUserImages() async {
-    try {
-      if (userId == null) {
-        print("Error: User is not logged in.");
-        return [];
-      }
 
-      // Query Firestore for images uploaded by the user
-      QuerySnapshot querySnapshot = await _firestore
-          .collection("images")
-          .where("userID", isEqualTo: userId)
-          .get();
+  // Future<List<Map<String, dynamic>>> getUserImages() async {
+  //   try {
+  //     if (userId == null) {
+  //       print("Error: User is not logged in.");
+  //       return [];
+  //     }
+  //
+  //     // Query Firestore for images uploaded by the user
+  //     QuerySnapshot querySnapshot = await _firestore
+  //         .collection("images")
+  //         .where("userID", isEqualTo: userId)
+  //         .get();
+  //
+  //     // Convert documents into a list of maps
+  //     List<Map<String, dynamic>> images = querySnapshot.docs.map((doc) {
+  //       return doc.data() as Map<String, dynamic>;
+  //     }).toList();
+  //
+  //     return images;
+  //   } catch (e) {
+  //     print("Error retrieving images: $e");
+  //     return [];
+  //   }
+  // }
 
-      // Convert documents into a list of maps
-      List<Map<String, dynamic>> images = querySnapshot.docs.map((doc) {
-        return doc.data() as Map<String, dynamic>;
-      }).toList();
-
-      return images;
-    } catch (e) {
-      print("Error retrieving images: $e");
-      return [];
-    }
-  }
-
-  Future<bool> deleteImage(String imageId) async {
+  // Pass in the postId inorder to delete the image and post
+  Future<bool> deleteImage(String postId) async {
     try {
       // Get image document from Firestore
-      DocumentSnapshot imageDoc = await _firestore.collection("images").doc(imageId).get();
+      DocumentSnapshot imageDoc = await _firestore.collection("posts").doc(postId).get();
 
       if (!imageDoc.exists) {
         print("Error: Image not found.");
@@ -111,12 +113,12 @@ class FirebaseStorageService {
       }
 
       // Get image URL and delete from Storage
-      String imageUrl = imageDoc['url'];
+      String imageUrl = imageDoc['imageUrl'];
       final storageRef = _storage.refFromURL(imageUrl);
       await storageRef.delete();
 
       // Delete Firestore document
-      await _firestore.collection("images").doc(imageId).delete();
+      await _firestore.collection("posts").doc(postId).delete();
 
       print("Image deleted successfully.");
       return true;

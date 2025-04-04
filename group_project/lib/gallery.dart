@@ -26,7 +26,7 @@ class _GalleryPageState extends State<GalleryPage> {
     });
 
     PostsStorage postsStorage = PostsStorage();
-    final posts = await postsStorage.getUserPostImages();
+    final posts = await postsStorage.getUserPostDetails();
 
     setState(() {
       _images = posts;
