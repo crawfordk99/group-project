@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:group_project/services/firebase_auth_service.dart';
 import 'package:group_project/main_screen.dart';
 
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -14,6 +15,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String profilePicUrl = 'https://www.bing.com/images/search?view=detailV2&ccid=LN6kJFUF&id=129B9F508C8F0923C483EEBBFC7BD144C3A5CC35&thid=OIP.LN6kJFUFhV-hbWaHW7qwkAHaHa&mediaurl=https%3a%2f%2fi.pinimg.com%2f736x%2f5b%2f00%2f9d%2f5b009de7c5445cfc41835aa57dc1859e.jpg&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.2cdea4245505855fa16d66875bbab090%3frik%3dNcylw0TRe%252fy77g%26pid%3dImgRaw%26r%3d0&exph=724&expw=724&q=purple+camera+logo+for+pictures&simid=608032718677566935&FORM=IRPRST&ck=96A8EACB5296F3D2F97EFA160386C2EC&selectedIndex=34&itb=0';
   final _email = TextEditingController();
   final _password = TextEditingController();
   final FirebaseAuthService _authService = FirebaseAuthService();
@@ -71,14 +73,16 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               // Logo
-              ClipOval(
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  color: Color(0xFF9C27B0), // Background color
+              Center(
+                child: GestureDetector(
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: NetworkImage(profilePicUrl),
+                    child: Icon(Icons.camera_alt, size: 40, color: Colors.white),
+                  ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Username Input
               TextFormField(
